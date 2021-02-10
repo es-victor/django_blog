@@ -1,0 +1,29 @@
+{% extends "blog/base.html" %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="section-content">
+    <div class="media">
+        <div class="mask">
+            <img class="profile-img" src="{{ user.profile.image.url }}" alt="profile picture">
+        </div>
+        <div class="media-body">
+            <h2 class="account-heading border-bottom">{{ user.username }}</h2>
+            <i class="fa fa-map-marker" aria-hidden="true"></i> <span>{{ userProfile.location }}</span><br>
+            <i class="fa fa-envelope" aria-hidden="true"></i> <span>{{ user.email }}</span><br>
+            <i class="fa fa-calendar" aria-hidden="true"></i> Joined <span>{{ user.date_joined|date:"F d, Y" }}</span>
+        </div>
+    </div>
+    <!-- Form here -->
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            <legend class="border-bottom mb-3">Profile Info</legend>
+            {{ u_form|crispy }}
+            {{ p_form|crispy }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn btn-outline-info" type="submit">Update</button>
+        </div>
+    </form>
+</div>
+{% endblock content %}

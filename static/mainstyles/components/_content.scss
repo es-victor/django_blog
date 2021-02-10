@@ -1,0 +1,14 @@
+// nesting example
+main {
+    margin-top: 20px;
+    .section-content {
+        background-color: $primaryBgColor;
+        border: 1px solid $secondaryColor;
+        padding: 20px 20px;
+    }
+    .post-content {
+        padding: 10px;
+        border: 1px solid $secondaryColor;
+        margin-bottom: 10px;
+    }
+}

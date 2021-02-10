@@ -1,0 +1,14 @@
+
+{% extends "blog/base.html" %} 
+{% block content %}
+ 
+{% for post in posts %}
+<div class="col-md-12 post-content">
+    <div class="pb-2 mb-2 border-bottom">By <a href="#">{{ post.author }}</a>, <small class="mr-0">{{ post.location }}</small>
+        <small class="pull-right">{{ post.date_posted|date:"F d, Y" }}
+        </small>
+         </div>
+    <h4>{{ post.title }}</h4>
+    <p>{{ post.content }}</p>
+</div>
+{% endfor %} {% endblock content %}

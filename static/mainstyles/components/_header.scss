@@ -1,0 +1,15 @@
+// class with parameter example
+@mixin text-center($color) {
+    background-color: $color;
+}
+
+// inherit example
+header {
+    @include text-center($secondaryBgColor);
+    color: $primaryColor;
+}
+ 
+// .active {
+//     text-decoration-line: overline !important;
+//     text-decoration-color: $primaryBgColor !important;
+// }
