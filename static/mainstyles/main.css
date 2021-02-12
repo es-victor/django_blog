@@ -50,6 +50,18 @@ body {
   width: 80px;
 }
 
+.article-img {
+  width: 100% !important;
+}
+
+.article-title {
+  text-decoration: none !important;
+}
+
+.profile-img {
+  padding: 0 0px !important;
+}
+
 .mask {
   display: inline-block;
   width: 80px;
