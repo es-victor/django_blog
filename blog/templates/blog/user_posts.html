@@ -1,6 +1,7 @@
 
 {% extends "blog/base.html" %} 
     {% block content %}
+    <h1 class = "mb-4" >Post by {{ view.kwargs.username }} ({{ page_obj.paginator.count }}) </h1>
         {% for post in posts %}
             <div class = "row col-md-12 col-xs-12  post-content">
                 <div class = "col-1 profile-img">
@@ -9,7 +10,9 @@
                     </div>
                 </div>
                 <div class=" col-11">
-                    <div class="pb-2 mb-2 border-bottom">By <a href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>, <small class="mr-0">{{ post.location }}</small>
+                    <div class="pb-2 mb-2 border-bottom">By 
+                    <a href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>, 
+                    <small class="mr-0">{{ post.location }}</small>
                         <small class="pull-right">{{ post.date_posted|date:"F d, Y" }}
                         </small>
                         </div>

@@ -8,7 +8,7 @@
                     </div>
                 </div>
                 <div class=" col-11">
-                    <div class="pb-2 mb-2 border-bottom">By <a href="#">{{ object.author }}</a>, 
+                    <div class="pb-2 mb-2 border-bottom">By <a href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>, 
                     <small class="mr-0">{{ object.location }}</small>
                     <small class="pull-right">{{ object.date_posted|date:"F d, Y" }}</small>     
                 </div>
@@ -17,7 +17,7 @@
                     <p>{{ object.content }}</p>
                     {% if object.author == user %}
                     <a btn btn-secondary-danger href = "{% url 'post-delete' object.id %}">Delete</a>
-                       <a btn btn-secondary-info href = "{% url 'post-update' object.id %}">Update</a>
+                    <a btn btn-secondary-info href = "{% url 'post-update' object.id %}">Update</a>
                     {% endif %}
                 </div>
                 </div>
