@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
-from django.contrib import messages 
+from django.contrib import messages
 from .forms import UserRegisterForm, UserUpdateForm, ProfileUpdateForm
 from .models import Profile
+from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
+
 
 # These are function based views, there are also class based views
 def register(request):
@@ -14,14 +16,15 @@ def register(request):
             messages.success(request, f'Account created for {username}!')
             return redirect('login')
     else:
-        form = UserRegisterForm() 
-    return render(request, 'users/register.html', {'form':form, 'register':'active'})
+        form = UserRegisterForm()
+    return render(request, 'users/register.html', {'form': form, 'register': 'active'})
+
 
 @login_required
 def profile(request):
     if request.method == 'POST':
-        u_form = UserUpdateForm(request.POST, instance = request.user)
-        p_form = ProfileUpdateForm(request.POST, request.FILES, instance = request.user.profile)
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
         if u_form.is_valid() and p_form.is_valid():
             u_form.save()
             p_form.save()
@@ -29,13 +32,14 @@ def profile(request):
             return redirect('profile')
 
     else:
-        u_form = UserUpdateForm(instance = request.user)
-        p_form = ProfileUpdateForm(instance = request.user.profile)
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
 
     context = {
         'u_form': u_form,
         'p_form': p_form,
         'userProfile': Profile,
-        'profile':'active',
+        'profile': 'active',
     }
     return render(request, 'users/profile.html', context)
+ 

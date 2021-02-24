@@ -14,6 +14,9 @@
                 </div>
                 <div>
                     <h4>{{ object.title }}</h4>
+                {%  for category in object.categories.all  %}
+                    <a>{{ category }}</a>
+                {% endfor %}
                     <p>{{ object.content }}</p>
                     {% if object.author == user %}
                     <a btn btn-secondary-danger href = "{% url 'post-delete' object.id %}">Delete</a>
