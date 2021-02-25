@@ -1,6 +1,11 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from datetime import time, date, datetime
-from .models import Post
+
+from django.urls import reverse
+
+from .models import Post, Comment
+from .forms import NewCommentForm
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, )
@@ -23,10 +28,7 @@ class PostListView(ListView):
     ordering = ['-date_posted']
     extra_context = {'home': 'active'}
     paginate_by = 4
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["home"] = "active" 
-    #     return context
+
 
 
 class UserPostListView(ListView):
@@ -42,6 +44,26 @@ class UserPostListView(ListView):
 
 class PostDetailView(DetailView):
     model = Post
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        comments_connected = Comment.objects.filter(
+            post=self.get_object()).order_by('-created_on')
+        context['comments'] = comments_connected
+        if self.request.user.is_authenticated:
+            context['comment_form'] = NewCommentForm(instance=self.request.user)
+
+        return context
+
+    def post(self, request, *args, **kwargs):
+        new_comment = Comment(content=request.POST.get('content'),
+                              author=self.request.user,
+                              post=self.get_object())
+        new_comment.save()
+        new_comment.clean()
+        return HttpResponseRedirect(request.path)
+        # return render(self, request, *args, **kwargs) // THIS CAUSE FORM RESUBMISSION
 
 
 # created a template with name = post_detail.html to match the default naming convetion so to remove the need for

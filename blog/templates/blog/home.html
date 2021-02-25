@@ -8,18 +8,19 @@
                 </div>
             </div>
             <div class=" col-11">
-                <div class="col-12 pb-2 mb-2 border-bottom">By <a
+                <div class="col-12 pb-2 mb-2 border-bottom"><a
                         href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>, <small
                         class="mr-0">{{ post.location }}</small>
-
-
                     <small class="pull-right">{{ post.date_posted|date:"F d, Y" }}
                     </small>
 
                 </div>
                 <div class="col-12 border-bottom">
                     <h4><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h4>
-                    <p>{{ post.content }}</p>
+                    <p>{{ post.content|truncatewords:51 }}</p>
+                    {% if post.content|wordcount > 51 %}
+                        <a class="btn btn-primary" href="{% url 'post-detail' post.id %}">More</a>
+                    {% endif %}
                 </div>
                 <div class="col-12 ">
                     {% if post.categories.count > 0 %}
@@ -31,17 +32,17 @@
                             <small class="pull-center"> Category:
                             </small>
 
-                                        {% for category in post.categories.all %}
-                                            {% if category == post.categories.last %}
-                                                <small class="pull-center">{{ category }}
-                                                </small>
+                            {% for category in post.categories.all %}
+                                {% if category == post.categories.last %}
+                                    <small class="pull-center">{{ category }}
+                                    </small>
 
-                                            {% else %}
-                                                <small class="pull-center">{{ category }} |
-                                                </small>
+                                {% else %}
+                                    <small class="pull-center">{{ category }} |
+                                    </small>
 
-                                            {% endif %}
-                                        {% endfor %}
+                                {% endif %}
+                            {% endfor %}
                         {% endif %}
 
                     {% endif %}
@@ -50,12 +51,18 @@
                 </div>
             </div>
             <div class="col-12">
-                <a class="pull-right article-title" href="">comment</a>
+                {% if post.comment_set.count > 0 %}
+                    <a class="pull-right article-title"  href="{% url 'post-detail' post.id %}">{{ post.comment_set.count }}
+                        comment{{ post.comment_set.count|pluralize }}</a>
+                {% else %}
+                    <a class="pull-right article-title" href="{% url 'post-detail' post.id %}">No comment</a>
+                {% endif %}
             </div>
         </div>
 
     {% endfor %}
 
+    <div class="text-center">
     {% if is_paginated %}
 
         {% if page_obj.has_previous %}
@@ -77,4 +84,5 @@
         {% endif %}
 
     {% endif %}
+    </div>
 {% endblock content %}

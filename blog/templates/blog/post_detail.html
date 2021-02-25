@@ -1,28 +1,61 @@
+{% extends "blog/base.html" %}
+{% block content %}
+    <div class="row col-md-12 col-xs-12  post-content">
+        <div class="col-1 profile-img">
+            <div>
+                <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
+            </div>
+        </div>
+        <div class=" col-11">
+            <div class="pb-2 mb-2 border-bottom">By <a
+                    href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>,
+                <small class="mr-0">{{ object.location }}</small>
+                <small class="pull-right">{{ object.date_posted|date:"F d, Y" }}</small>
+            </div>
 
-{% extends "blog/base.html" %} 
-    {% block content %} 
-            <div class = "row col-md-12 col-xs-12  post-content">
-                <div class = "col-1 profile-img">
-                    <div>
-                    <img class = "rounded-circle article-img" src="{{object.author.profile.image.url}}">
-                    </div>
-                </div>
-                <div class=" col-11">
-                    <div class="pb-2 mb-2 border-bottom">By <a href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>, 
-                    <small class="mr-0">{{ object.location }}</small>
-                    <small class="pull-right">{{ object.date_posted|date:"F d, Y" }}</small>     
-                </div>
-                <div>
-                    <h4>{{ object.title }}</h4>
-                {%  for category in object.categories.all  %}
+            <div>
+                <h4>{{ object.title }}</h4>
+                {% for category in object.categories.all %}
                     <a>{{ category }}</a>
                 {% endfor %}
-                    <p>{{ object.content }}</p>
-                    {% if object.author == user %}
-                    <a btn btn-secondary-danger href = "{% url 'post-delete' object.id %}">Delete</a>
-                    <a btn btn-secondary-info href = "{% url 'post-update' object.id %}">Update</a>
-                    {% endif %}
-                </div>
-                </div>
-            </div> 
-    {% endblock content %}
+                <p>{{ object.content }}</p>
+                {% if object.author == user %}
+                    <a btn btn-secondary-danger href="{% url 'post-delete' object.id %}">Delete</a>
+                    <a btn btn-secondary-info href="{% url 'post-update' object.id %}">Update</a>
+                {% endif %}
+                {% if comments %}
+                    <strong class="text-secondary">{{ object.number_of_comments }}
+                        Comment{{ object.number_of_comments|pluralize }}</strong>
+                    <hr>
+                    {% for comment in comments %}
+                        <div class="m-3 p-1 bg-light">
+                            <span>
+                              <strong class="text-info">{{ comment.author }} </strong>
+                              <small class="text-muted">{{ comment.created_on }}</small>
+                            </span>
+                            <div> {{ comment.content|safe }}</div>
+                        </div>
+                    {% endfor %}
+
+                {% else %}
+                    <div><strong class="text-secondary">Be first to comment</strong></div>
+                {% endif %}
+                {% if user.is_authenticated %}
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                           <div> {{ comment_form }}</div>
+                            <button class="btn btn-info" type="submit">
+                                Add comment
+                            </button>
+                        </div>
+                    </form>
+                {% else %}
+                    <a class="btn btn-outline-info" href="{% url 'login' %}?next={{ request.path }}">Log in to add a
+                        comment!</a><br>
+
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock content %}

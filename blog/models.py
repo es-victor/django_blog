@@ -27,9 +27,9 @@ class Post(models.Model):
 
     def get_absolute_url(self):
         return reverse("post-detail", kwargs={"pk": self.pk})
-
-    def number_of_comments(self):
-        return Comment.objects.filter(comment_post=self).count()
+    #
+    # def number_of_comments(self):
+    #     return Comment.objects.filter(comment_post=self).count()
 
     # class Meta:
     #     ordering = ('-date_posted',)
@@ -38,8 +38,8 @@ class Post(models.Model):
 class Comment(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    content = models.CharField(max_length=250)
+    content = models.CharField(max_length=250,)
     created_on = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return str(self.author) + ', ' + self.post.title[:40]
+        return '"'+str(self.author) + '" --commented on-- "' + self.post.title[:40] + '" --  "'+self.content+'"'
