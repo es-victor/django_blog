@@ -3,8 +3,9 @@ from django.shortcuts import render, get_object_or_404
 from datetime import time, date, datetime
 
 from django.urls import reverse
-
-from .models import Post, Comment
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponseRedirect
+from .models import Post, Comment, Category
 from .forms import NewCommentForm
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
@@ -20,6 +21,17 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 #     }
 #     return render(request, 'blog/home.html', context)
 
+def LikeView(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+    return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
+
 
 class PostListView(ListView):
     model = Post
@@ -28,7 +40,6 @@ class PostListView(ListView):
     ordering = ['-date_posted']
     extra_context = {'home': 'active'}
     paginate_by = 4
-
 
 
 class UserPostListView(ListView):
@@ -41,12 +52,30 @@ class UserPostListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Post.objects.filter(author=user).order_by('-date_posted')
 
+class CategoryPosts(ListView):
+    model = Post
+    template_name = 'blog/category_posts.html'
+    context_object_name = 'category_posts'
+    paginate_by = 4
+
+    def get_queryset(self):
+        category = get_object_or_404(Category, name=self.kwargs.get('name'))
+        return Post.objects.filter(categories=category).order_by('-date_posted')
+
 
 class PostDetailView(DetailView):
     model = Post
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        number_of_likes = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = number_of_likes.total_likes()
+        liked = False
+        if number_of_likes.likes.filter(id=self.request.user.id).exists():
+            liked = True
+        context['total_likes'] = total_likes
+        context['liked'] = liked
 
         comments_connected = Comment.objects.filter(
             post=self.get_object()).order_by('-created_on')

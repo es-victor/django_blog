@@ -1,107 +1,166 @@
-header, .content {
-  background-color: #edaaaf;
-  color: #151515;
+.site-header {
+    background-color: #000020;
 }
 
 main {
-  margin-top: 20px;
-}
-main .section-content {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  padding: 20px 20px;
-}
-main .post-content {
-  padding: 10px;
-  border: 1px solid #ddd;
-  margin-bottom: 10px;
-}
-
-body {
-  font-size: 14px !important;
-  scrollbar-width: thin;
-}
-
-.content {
-  background-color: #fff;
-}
-
-.navbar {
-  padding-top: 5px !important;
-  padding-bottom: 5px !important;
-}
-.navbar .navbar-toggler {
-  border: none;
-  outline: none;
-}
-
-.nav-link {
-  padding-bottom: 3px !important;
-}
-
-.form-control {
-  border-radius: 0 !important;
-  padding: 3px !important;
-}
-
-.profile-img {
-  width: 80px;
-}
-
-.article-img {
-  width: 100% !important;
-}
-
-.article-title {
-  text-decoration: none !important;
-}
-
-.profile-img {
-  padding: 0 0 !important;
-}
-
-.mask {
-  display: inline-block;
-  width: 80px;
-  height: 80px;
-  border-radius: 40px;
-  overflow: hidden;
-  margin-right: 20px;
-}
-
-.profile-img-nav {
-  width: 30px;
-}
-
-.mask-nav {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  border-radius: 15px;
-  overflow: hidden;
-  align-items: center;
-  display: flex;
-  justify-content: center;
-}
-
-.fa {
-  color: rgba(0, 0, 0, 0.411) !important;
-  width: 20px;
-  text-align: center;
-}
-
-.navbar-collapse .nav-link {
-  padding-top: 0px;
-  padding-bottom: 0px;
-}
-
-.nav-item {
-  text-align: left !important;
+    margin-top: 20px;
 }
 
 .active {
-  border-bottom: 1px solid black;
-  padding-top: 0px;
+    border-bottom: 1px solid white !important;
+}
+.text-decoration-none {
+    text-decoration: none !important;
+}
+.nav-link {
+    text-transform: uppercase;
+}
+.has-comment{
+    color: #ed0000!important;
+}
+.article-title{
+    font-family: 'Courier New', Monospace !important;
+    font-weight: bold;
+    color: #101020;
+}
+small{
+ color: #808080 !important;
+}
+.btn-outline-info-updated {
+    border: 1px rgba(255, 255, 255, 0.5) solid !important;
+    color: rgba(255, 255, 255, 0.5) !important;
+}
+
+.btn-outline-info-updated:hover {
+    color: rgba(255, 255, 255, .75) !important;
+    background-color: #101020 !important;
+    border-color: rgba(255, 255, 255, .75) !important;
+}
+.btn-outline-info-updated:active {
+    color: #fff !important;
+    background-color: #101020 !important;
+    border-color: #fff !important;
+}
+.btn-info {
+    border: 1px rgba(255, 255, 255, 0.5) solid !important;
+    color: #000020 !important;
+    background-color: white !important;
+}
+
+.btn-info:active {
+    color: #fff !important;
+    background-color: #101020 !important;
+    border-color: #fff !important;
+}
+.btn-info:hover {
+    color: rgba(255, 255, 255, .75) !important;
+    background-color: rgba(255, 255, 255, .75) !important;
+    border-color: rgba(255, 255, 255, .75) !important;
+}
+
+main .section-content {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    padding: 20px 20px;
+}
+
+main .post-content {
+    padding: 10px;
+    border: 1px solid #ddd;
+    margin-bottom: 10px;
+}
+
+body {
+    font-size: 14px !important;
+    scrollbar-width: thin;
+}
+
+.content {
+    background-color: #fff;
+}
+
+.navbar {
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.navbar .navbar-toggler {
+    border: none;
+    outline: none;
+}
+
+.nav-link {
+    padding-bottom: 3px !important;
+}
+
+.form-control {
+    border-radius: 0 !important;
+    padding: 3px !important;
+}
+
+.profile-img {
+    width: 80px;
+}
+
+.article-img {
+    width: 100% !important;
+}
+
+.article-title {
+    text-decoration: none !important;
+}
+
+.profile-img {
+    padding: 0 0 !important;
+}
+
+.mask {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+    border-radius: 40px;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.profile-img-nav {
+    width: 30px;
+}
+
+.mask-nav {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border-radius: 15px;
+    overflow: hidden;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.fa {
+    color: rgba(0, 0, 0, 0.411) !important;
+    width: 20px;
+    text-align: center;
+}
+
+.navbar-collapse .nav-link {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+.nav-item {
+    text-align: left !important;
+}
+
+.active {
+    border-bottom: 1px solid black;
+    padding-top: 0px;
+}
+
+.django-ckeditor-widget {
+    width: 100% !important;
+    overflow-x: scroll !important;
 }
 
 /*# sourceMappingURL=main.css.map */

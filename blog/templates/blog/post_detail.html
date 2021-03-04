@@ -14,48 +14,79 @@
             </div>
 
             <div>
-                <h4>{{ object.title }}</h4>
-                {% for category in object.categories.all %}
-                    <a>{{ category }}</a>
-                {% endfor %}
-                <p>{{ object.content }}</p>
-                {% if object.author == user %}
-                    <a btn btn-secondary-danger href="{% url 'post-delete' object.id %}">Delete</a>
-                    <a btn btn-secondary-info href="{% url 'post-update' object.id %}">Update</a>
-                {% endif %}
-                {% if comments %}
-                    <strong class="text-secondary">{{ object.number_of_comments }}
-                        Comment{{ object.number_of_comments|pluralize }}</strong>
-                    <hr>
-                    {% for comment in comments %}
-                        <div class="m-3 p-1 bg-light">
+                <div>
+                    <h4>{{ object.title }}</h4>
+                    <p>{{ object.content|safe }}</p>
+                </div>
+                <div>
+                    {% if object.author == user %}
+                        <a class="btn btn-outline-danger " role="button"
+                           href="{% url 'post-delete' object.id %}">Delete</a>
+                        <a class="btn btn-outline-info " role="button"
+                           href="{% url 'post-update' object.id %}">Update</a>
+                    {% endif %}
+                </div>
+                <div>
+                    {% for category in object.categories.all %}
+                        <a>{{ category }}</a>
+                    {% endfor %}
+                </div>
+                <div>
+                    {% if comments %}
+                        <strong class="text-secondary">{{ object.number_of_comments }}
+                            Comment{{ object.number_of_comments|pluralize }}</strong>
+                        <hr>
+                        {% for comment in comments %}
+                            <div class="m-3 p-1 bg-light">
                             <span>
                               <strong class="text-info">{{ comment.author }} </strong>
                               <small class="text-muted">{{ comment.created_on }}</small>
                             </span>
-                            <div> {{ comment.content|safe }}</div>
-                        </div>
-                    {% endfor %}
+                                <div> {{ comment.content|safe }}</div>
+                            </div>
+                        {% endfor %}
 
-                {% else %}
-                    <div><strong class="text-secondary">Be first to comment</strong></div>
-                {% endif %}
+                    {% else %}
+                        <div><strong class="text-secondary">Be first to comment</strong></div>
+                    {% endif %}
+                </div>
                 {% if user.is_authenticated %}
-                    <form method="POST">
-                        {% csrf_token %}
-                        <div class="form-group">
-                           <div> {{ comment_form }}</div>
-                            <button class="btn btn-info" type="submit">
+                    <div>
+                        <form method="POST">
+                            {% csrf_token %}
+                            <div>
+                                {{ comment_form.as_p }}
+                            </div>
+                            <button class="btn btn-outline-info" type="submit">
                                 Add comment
                             </button>
-                        </div>
-                    </form>
-                {% else %}
-                    <a class="btn btn-outline-info" href="{% url 'login' %}?next={{ request.path }}">Log in to add a
-                        comment!</a><br>
 
+                        </form>
+                    </div>
+                    <div class="my-3">
+                        <form action="{% url 'like_post' post.pk %}" method="POST">
+                            {% csrf_token %}
+                            {% if liked %}
+                                <button class="btn btn-danger  btn-xs" type="submit" name="post_id"
+                                        value="{{ post.id }}">
+                                    unlike
+                                </button>
+                            {% else %}
+                                <button class="btn btn-outline-info  btn-xs" type="submit" name="post_id"
+                                        value="{{ post.id }}">
+                                    like
+                                </button>
+                            {% endif %}
+                        </form>
+                        <p>{{ total_likes }} like{{ total_likes|pluralize }}</p>
+                    </div>
+                {% else %}
+                    <a class="btn btn-outline-info" href="{% url 'login' %}?next={{ request.path }}">Log in to Like and
+                        Comment</a>
+                    <br>
                 {% endif %}
             </div>
+
         </div>
     </div>
 {% endblock content %}
