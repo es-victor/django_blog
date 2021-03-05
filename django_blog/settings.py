@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'ckeditor',
     'ckeditor_uploader',
+    'rest_framework',
 
     'django.contrib.admin',
     'django.contrib.auth',
@@ -156,6 +157,18 @@ CKEDITOR_CONFIGS = {
     'default': {
         'toolbar': 'full',
         'width': '100%',
-        'overflow-x':'scroll'
+        'overflow-x': 'scroll'
     },
+}
+
+# WORKING WITH API DJANGO REST FRAMEWORK
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 5
+
 }
