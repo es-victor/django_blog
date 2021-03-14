@@ -26,7 +26,7 @@ SECRET_KEY = 'w+k^o%ol!_tzx8ll14xd8!_+90!nok-^pl=e8wra3b%m2iqn7e'
 DEBUG = True
 
 ALLOWED_HOSTS = [
-'django_blog.herokuapp.com'
+'victor-django-blog.herokuapp.com'
 ]
 
 # Application definition
