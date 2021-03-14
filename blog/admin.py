@@ -9,7 +9,7 @@ class PostAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ("author","content","created_on","post")
+    list_display = ("author", "content", "created_on", "post")
 
 
 @admin.register(Category)

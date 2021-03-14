@@ -1,81 +1,11 @@
-{% extends "blog/base.html" %}
-{% block content %}
-    <div class="row col-md-12 col-xs-12  post-content">
-        <div class="col-1 profile-img">
-            <div>
-                <img class="rounded-circle article-img" src="{{ object.author.profile.image.url }}">
-            </div>
-        </div>
-        <div class=" col-11">
-            <div class="pb-2 mb-2 border-bottom">By <a
-                    href="{% url 'user-posts' object.author.username %}">{{ object.author }}</a>,
-                <small class="mr-0">{{ object.location }}</small>
-                <small class="pull-right">{{ object.date_posted|date:"F d, Y" }}</small>
-            </div>
+<div class="my-3">
+    <button class="btn p-0 btn-link btn-xs" type="submit" name="post_id" id="like-button"
+            value="{{ post.id }}">
+        <div id="user_liked"></div>
+    </button>
+    <p id="total_likes">{{ total_likes }}</p>
+</div>
 
-            <div>
-                <div>
-                    <h4>{{ object.title }}</h4>
-                    <p>{{ object.content|safe }}</p>
-                </div>
-                <div>
-                    {% if object.author == user %}
-                        <a class="btn btn-outline-danger " role="button"
-                           href="{% url 'post-delete' object.id %}">Delete</a>
-                        <a class="btn btn-outline-info " role="button"
-                           href="{% url 'post-update' object.id %}">Update</a>
-                    {% endif %}
-                </div>
-                <div>
-                    {% for category in object.categories.all %}
-                        <a>{{ category }}</a>
-                    {% endfor %}
-                </div>
-                <div>
-                    {% if comments %}
-                        <strong class="text-secondary">{{ object.number_of_comments }}
-                            Comment{{ object.number_of_comments|pluralize }}</strong>
-                        <hr>
-                        {% for comment in comments %}
-                            <div class="m-3 p-1 bg-light">
-                            <span>
-                              <strong class="text-info">{{ comment.author }} </strong>
-                              <small class="text-muted">{{ comment.created_on }}</small>
-                            </span>
-                                <div> {{ comment.content|safe }}</div>
-                            </div>
-                        {% endfor %}
-                    {% else %}
-                        <div><strong class="text-secondary">Be first to comment</strong></div>
-                    {% endif %}
-                </div>
-                {% if user.is_authenticated %}
-                    <div>
-                        <form method="POST">
-                            {% csrf_token %}
-                            <div>
-                                {{ comment_form.as_p }}
-                            </div>
-                            <button class="btn btn-outline-info" type="submit">
-                                Add comment
-                            </button>
-
-                        </form>
-                    </div>
-
-                {% else %}
-                    <a class="btn btn-outline-info" href="{% url 'login' %}?next={{ request.path }}">Log in to Like and
-                        Comment</a>
-                    <br>
-                {% endif %}
-            </div>
-
-        </div>
-    </div>
-
-     {% include "templates/blog/like_unlike.html" %}
-
-{% endblock content %}
 {% block javascript %}
     <script>
         $(document).ready(function (e) {

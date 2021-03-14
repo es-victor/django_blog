@@ -1,12 +1,17 @@
-from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from django.forms import ModelForm, CheckboxSelectMultiple
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from datetime import time, date, datetime
 
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
+from django.views.decorators.csrf import csrf_protect
+
+from . import forms
 from .models import Post, Comment, Category
-from .forms import NewCommentForm
+from .forms import NewCommentForm, NewPostForm
 from django.contrib.auth.models import User
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, )
@@ -21,16 +26,50 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 #     }
 #     return render(request, 'blog/home.html', context)
 
-def LikeView(request, pk):
-    post = get_object_or_404(Post, id=request.POST.get('post_id'))
-    liked = False
-    if post.likes.filter(id=request.user.id).exists():
-        post.likes.remove(request.user)
-        liked = False
-    else:
-        post.likes.add(request.user)
-        liked = True
-    return HttpResponseRedirect(reverse('post-detail', args=[str(pk)]))
+# def LikeView(request, pk):
+#     post = get_object_or_404(Post, id=request.POST.get('post_id'))
+#     liked = False
+#     if post.likes.filter(id=request.user.id).exists():
+#         post.likes.remove(request.user)
+#         liked = False
+#         post.save()
+#     else:
+#         post.likes.add(request.user)
+#         liked = True
+#         post.save()
+#
+#     return JsonResponse({'liked': liked, 'count': post.total_likes()})
+@login_required
+def like(request):
+    if request.method == 'POST':
+        post_id = request.POST.get('postid')
+        post = get_object_or_404(Post, id=post_id)
+        if post.likes.filter(id=request.user.id).exists():
+            post.likes.remove(request.user)
+            user_liked = 'not_liked'
+            count = post.total_likes()
+            post.save()
+
+
+        else:
+            post.likes.add(request.user)
+            user_liked = 'liked'
+            count = post.total_likes()
+            post.save()
+        return JsonResponse({'user_liked': user_liked, 'count': str(count)}, status=200)
+    return JsonResponse({}, status=500)
+
+
+def is_like(request):
+    if request.is_ajax and request.method == "GET":
+        post_id = request.GET.get('postid')
+        post = get_object_or_404(Post, id=post_id)
+        if post.likes.filter(id=request.user.id).exists():
+            user_liked = 'liked'
+        else:
+            user_liked = 'not_liked'
+        return JsonResponse({'user_liked': user_liked, }, status=200)
+    return JsonResponse({}, status=500)
 
 
 class PostListView(ListView):
@@ -52,6 +91,7 @@ class UserPostListView(ListView):
         user = get_object_or_404(User, username=self.kwargs.get('username'))
         return Post.objects.filter(author=user).order_by('-date_posted')
 
+
 class CategoryPosts(ListView):
     model = Post
     template_name = 'blog/category_posts.html'
@@ -68,21 +108,18 @@ class PostDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
         number_of_likes = get_object_or_404(Post, id=self.kwargs['pk'])
         total_likes = number_of_likes.total_likes()
-        liked = False
+        user_liked = 'no'
         if number_of_likes.likes.filter(id=self.request.user.id).exists():
-            liked = True
+            user_liked = 'yes'
         context['total_likes'] = total_likes
-        context['liked'] = liked
-
+        context['user_liked'] = user_liked
         comments_connected = Comment.objects.filter(
             post=self.get_object()).order_by('-created_on')
         context['comments'] = comments_connected
         if self.request.user.is_authenticated:
             context['comment_form'] = NewCommentForm(instance=self.request.user)
-
         return context
 
     def post(self, request, *args, **kwargs):
@@ -101,7 +138,7 @@ class PostDetailView(DetailView):
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
-    fields = ['title', 'content', 'categories']
+    form_class = NewPostForm
     extra_context = {'post_create': 'active', 'submit_text': 'Post'}
 
     def form_valid(self, form):
@@ -111,7 +148,7 @@ class PostCreateView(LoginRequiredMixin, CreateView):
 
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
-    fields = ['title', 'content', 'categories']
+    form_class = NewPostForm
     extra_context = {'submit_text': 'Update'}
 
     def form_valid(self, form):

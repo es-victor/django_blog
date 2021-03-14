@@ -34,7 +34,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Post
-        fields = ['author', 'title', 'content', 'date_posted']
+        fields = ['id','author', 'title', 'content', 'date_posted']
 
 
 # ViewSets define the view behavior.
@@ -59,9 +59,9 @@ router.register(r'post', PostViewSet)
 
 
 urlpatterns = [
-    path('', include('blog.urls')),
-    path('api/', include(router.urls)),
+    path('api/v1/', include(router.urls)),
     path('admin/', admin.site.urls),
+    path('', include('blog.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('register/', user_views.register, name="register"),
     path('profile/', user_views.profile, name="profile"),

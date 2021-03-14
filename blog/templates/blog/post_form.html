@@ -6,7 +6,6 @@
             {% csrf_token %}
             <fieldset class="form-group">
                 <legend class="border-bottom mb-3">Blog Post</legend>
-
                 {{ form.media }}
                 {{ form|crispy }}
             </fieldset>
@@ -17,8 +16,3 @@
 
     </div>
 {% endblock content %}
-<script>
-    $(document).ready(function () {
-        $(".django-ckeditor-widget").css("width", "100%","overflow-x", "scroll")
-    });
-</script>
