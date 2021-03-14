@@ -69,11 +69,16 @@
                     <br>
                 {% endif %}
             </div>
-
+            <div class="my-3">
+                <button class="btn p-0 btn-link btn-xs" type="submit" name="post_id" id="like-button"
+                        value="{{ post.id }}">
+                    <div id="user_liked"></div>
+                </button>
+                <p id="total_likes">{{ total_likes }}</p>
+            </div>
         </div>
     </div>
 
-     {% include "templates/blog/like_unlike.html" %}
 
 {% endblock content %}
 {% block javascript %}

@@ -26,6 +26,7 @@ SECRET_KEY = 'w+k^o%ol!_tzx8ll14xd8!_+90!nok-^pl=e8wra3b%m2iqn7e'
 DEBUG = True
 
 ALLOWED_HOSTS = [
+    '127.0.0.1',
 'victor-django-blog.herokuapp.com'
 ]
 
