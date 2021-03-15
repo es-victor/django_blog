@@ -34,8 +34,8 @@ class Post(models.Model):
         return reverse("post-detail", kwargs={"pk": self.pk})
     def total_likes(self):
         return self.likes.count()
-    # class Meta:
-    #     ordering = ('-date_posted',)
+    class Meta:
+        ordering = ('-date_posted',)
 
 
 class Comment(models.Model):
