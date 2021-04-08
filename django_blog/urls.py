@@ -19,22 +19,12 @@ from django.urls import path, include
 
 from django.conf import settings
 from django.conf.urls.static import static
+
+from blog.serializer import UserSerializer, PostSerializer
 from users import views as user_views
 from django.contrib.auth.models import User
 from blog.models import Post
 from rest_framework import routers, serializers, viewsets
-
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ['url', 'username', 'email', 'is_staff']
-
-
-class PostSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Post
-        fields = ['id','author', 'title', 'content', 'date_posted']
 
 
 # ViewSets define the view behavior.
