@@ -1,9 +1,9 @@
 from django.contrib.auth.decorators import login_required
 from django.forms import ModelForm, CheckboxSelectMultiple
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse, request
 from django.shortcuts import render, get_object_or_404
 from datetime import time, date, datetime
-
+from django.db.models import Q
 from django.urls import reverse
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponseRedirect
@@ -17,14 +17,25 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, )
 
 
-# def home(request):
-#     # dictionary to pass data(posts)
-#     context = {
-#         'posts': Post.objects.all(),
-#         'title': 'Home Page',
-#         'home': 'active',
-#     }
-#     return render(request, 'blog/home.html', context)
+def home(request):
+    # dictionary to pass data(posts)
+
+    search_post = request.GET.get('search')
+    if search_post:
+        context = {
+            'posts': Post.objects.filter(Q(title__icontains=search_post) | Q(content__icontains=search_post)).order_by(
+                '-date_posted'),
+            'title': 'Home Page',
+            'home': 'active',
+        }
+    else:
+        context = {
+            'posts': Post.objects.all().order_by('-date_posted'),
+            'title': 'Home Page',
+            'home': 'active',
+        }
+    return render(request, 'blog/home.html', context)
+
 
 # def LikeView(request, pk):
 #     post = get_object_or_404(Post, id=request.POST.get('post_id'))
@@ -79,6 +90,12 @@ class PostListView(ListView):
     ordering = ['-date_posted']
     extra_context = {'home': 'active'}
     paginate_by = 4
+    # search_post = request.GET.get('search')
+    # if search_post:
+    #     posts = Post.objects.filter(Q(title__icontains=search_post) & Q(content__icontains=search_post))
+    # else:
+    #     # If not searched, return default posts
+    #     posts = Post.objects.all().order_by("-date_created")
 
 
 class UserPostListView(ListView):
