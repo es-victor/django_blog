@@ -17,6 +17,12 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
         model = User
         fields = ['username', 'email', 'profile', 'is_staff']
 
+    # def create(self, validated_data):
+    #     profile_data = validated_data.pop('profile')
+    #     user = User.objects.create(**validated_data)
+    #     Profile.objects.create(user=user, **profile_data)
+    #     return user
+
 
 class PostSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

@@ -48,26 +48,26 @@
                             {% endif %}
                         {% endif %}
                     </div>
-{#                    {% if user.is_authenticated %}#}
-{#                        <div class="my-3">#}
-{#                            <form action="{% url 'like_post' post.pk %}" method="POST">#}
-{#                                {% csrf_token %}#}
-{#                                {% if liked %}#}
-{#                                    <a class="btn btn-danger  btn-xs" type="submit" name="post_id"#}
-{#                                       value="{{ post.id }}">#}
-{##}
-{#                                    </a>#}
-{#                                {% else %}#}
-{#                                    <a class="btn btn-outline-info  btn-xs" type="submit" name="post_id"#}
-{#                                       value="{{ post.id }}">#}
-{##}
-{#                                    </a>#}
-{#                                {% endif %}#}
-{#                            </form>#}
-{#                                                                 #}
-{#                        </div>#}
-{#                    {% else %}#}
-{#                    {% endif %}#}
+                    {#                    {% if user.is_authenticated %}#}
+                    {#                        <div class="my-3">#}
+                    {#                            <form action="{% url 'like_post' post.pk %}" method="POST">#}
+                    {#                                {% csrf_token %}#}
+                    {#                                {% if liked %}#}
+                    {#                                    <a class="btn btn-danger  btn-xs" type="submit" name="post_id"#}
+                    {#                                       value="{{ post.id }}">#}
+                    {##}
+                    {#                                    </a>#}
+                    {#                                {% else %}#}
+                    {#                                    <a class="btn btn-outline-info  btn-xs" type="submit" name="post_id"#}
+                    {#                                       value="{{ post.id }}">#}
+                    {##}
+                    {#                                    </a>#}
+                    {#                                {% endif %}#}
+                    {#                            </form>#}
+                    {#                                                                 #}
+                    {#                        </div>#}
+                    {#                    {% else %}#}
+                    {#                    {% endif %}#}
                     <div class="mr-3">
 
                         {% if post.likes.count > 0 %}
