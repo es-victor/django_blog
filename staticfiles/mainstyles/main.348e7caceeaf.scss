@@ -1,0 +1,101 @@
+// varibles example
+$primaryColor: #151515;
+$secondaryColor: #ddd;
+$primaryBgColor: #fff;
+$secondaryBgColor: #edaaaf;
+//  import example
+@import 'components/header',
+'components/content';
+body {
+  font-size: 14px !important;
+  scrollbar-width: thin;
+  // user-select: none;
+}
+
+// Extend example
+.content {
+  @extend header;
+  // overide example -> overide black bgColor from header with the white(#fff) bgColor
+  background-color: #fff;
+}
+
+.navbar {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+
+  .navbar-toggler {
+    border: none;
+    outline: none;
+  }
+}
+
+.nav-link {
+  padding-bottom: 3px !important;
+}
+
+.form-control {
+  border-radius: 0 !important;
+  padding: 3px !important;
+}
+
+.profile-img {
+  width: 80px;
+}
+
+.article-img {
+  width: 100% !important;
+}
+
+.article-title {
+  text-decoration: none !important;
+}
+
+.profile-img {
+  padding: 0 0 !important;
+}
+
+.mask {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  overflow: hidden;
+  margin-right: 20px;
+}
+
+.profile-img-nav {
+  width: 30px;
+}
+
+.mask-nav {
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  overflow: hidden;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.fa {
+  color: rgba(0, 0, 0, 0.411) !important;
+  width: 20px;
+  text-align: center;
+}
+
+.navbar-collapse {
+  .nav-link {
+    padding-top: 0px;
+    padding-bottom: 0px;
+  }
+}
+
+.nav-item {
+  text-align: left !important;
+}
+
+.active {
+  border-bottom: 1px solid rgb(0, 0, 0);
+  padding-top: 0px;
+}
