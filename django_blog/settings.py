@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-# secret w+k^o%ol!_tzx8ll14xd8!_+90!nok-^pl=e8wra3b%m2iqn7e
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'w+k^o%ol!_tzx8ll14xd8!_+90!nok-^pl=e8wra3b%m2iqn7e')
+SECRET_KEY =  "w+k^o%ol!_tzx8ll14xd8!_+90!nok-^pl=e8wra3b%m2iqn7e"
+# SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'w+k^o%ol!_tzx8ll14xd8!_+90!nok-^pl=e8wra3b%m2iqn7e')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
-
+# DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
+DEBUG = "True"
 ALLOWED_HOSTS = [
 
     'victor-django-blog.herokuapp.com', '127.0.0.1'
@@ -181,8 +181,8 @@ REST_FRAMEWORK = {
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 PROJECT_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
+# STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/'
 
 # Extra lookup directories for collectstatic to find static files
