@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'w+k^o%ol!_tzx8ll14xd8!_+90!nok
 DEBUG = os.environ.get('DJANGO_DEBUG', '')!='False'
 
 ALLOWED_HOSTS = [
-    # '127.0.0.1',
+    '127.0.0.1',
     'victor-django-blog.herokuapp.com'
 ]
 
